@@ -1,0 +1,1 @@
+# MUXI SMI detector module
