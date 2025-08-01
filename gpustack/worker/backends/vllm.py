@@ -97,6 +97,8 @@ class VLLMServer(InferenceServer):
             if logger.isEnabledFor(logging.DEBUG):
                 env_view = env
             elif self._model.env:
+                # If the model instance has its own environment variables,
+                # display the mutated environment variables.
                 env_view = self._model.env
                 for k, v in self._model.env.items():
                     env_view[k] = env.get(k, v)

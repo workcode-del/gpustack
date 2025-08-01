@@ -8,7 +8,7 @@ from argon2 import PasswordHasher
 
 ph = PasswordHasher()
 
-API_KEY_PREFIX = "model-manager"
+API_KEY_PREFIX = "gpustack"
 JWT_TOKEN_EXPIRE_MINUTES = 120
 
 

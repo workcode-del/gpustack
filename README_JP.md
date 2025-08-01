@@ -35,7 +35,11 @@ GPUStack は、AI モデルを実行するためのオープンソース GPU ク
 
 - **幅広い GPU 互換性:** Apple Mac、Windows PC、Linux サーバー上のさまざまなベンダーの GPU をシームレスにサポート。
 - **豊富なモデルサポート:** LLM、VLM、画像モデル、音声モデル、埋め込みモデル、リランクモデルを含む幅広いモデルをサポート。
+<<<<<<< HEAD
 - **柔軟な推論バックエンド:** llama-box（llama.cpp と stable-diffusion.cpp）、vox-box、vLLM、Ascend MindIE と統合。
+=======
+- **柔軟な推論バックエンド:** vLLM、Ascend MindIE、llama-box（llama.cpp と stable-diffusion.cpp）、vox-box と統合。
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 - **マルチバージョンバックエンドサポート:** 異なるモデルの多様なランタイム要件を満たすために、推論バックエンドの複数バージョンを同時実行。
 - **分散推論:** ベンダーやランタイム環境をまたぐ異種 GPU を含む、シングルノードおよびマルチノードのマルチ GPU 推論をサポート。
 - **スケーラブルな GPU アーキテクチャ:** インフラストラクチャに GPU やノードを追加することで簡単にスケールアップ。
@@ -50,6 +54,7 @@ GPUStack は、AI モデルを実行するためのオープンソース GPU ク
 
 ## インストール
 
+<<<<<<< HEAD
 ### Linux または macOS
 
 GPUStack は、systemd または launchd ベースのシステムでサービスとしてインストールするスクリプトを提供しており、デフォルトポートは 80 です。この方法で GPUStack をインストールするには、以下を実行します：
@@ -97,11 +102,31 @@ gpustack draw hf.co/gpustack/stable-diffusion-v3-5-large-turbo-GGUF:stable-diffu
 3. ブラウザで`http://your_host_ip`を開いて GPUStack UI にアクセスします。ユーザー名`admin`とデフォルトパスワードで GPUStack にログインします。デフォルト設定のパスワードを取得するには、以下のコマンドを実行します：
 
 **Linux または macOS**
+=======
+### Linux
+
+NVIDIA GPU を使用している場合は、Docker と NVIDIA Container Toolkit をインストールしてください。その後、以下のコマンドで GPUStack サーバーを起動します：
+
+```bash
+docker run -d --name gpustack \
+      --restart=unless-stopped \
+      --gpus all \
+      --network=host \
+      --ipc=host \
+      -v gpustack-data:/var/lib/gpustack \
+      gpustack/gpustack
+```
+
+詳細なインストール手順やその他の GPU ハードウェアプラットフォームについては、インストールドキュメント を参照してください。
+
+サーバー起動後、次のコマンドでデフォルト管理者パスワードを取得できます：
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 
 ```bash
 cat /var/lib/gpustack/initial_admin_password
 ```
 
+<<<<<<< HEAD
 **Windows**
 
 ```powershell
@@ -127,6 +152,51 @@ curl http://your_gpustack_server_url/v1-openai/chat/completions \
   -H "Authorization: Bearer $GPUSTACK_API_KEY" \
   -d '{
     "model": "llama3.2",
+=======
+ブラウザで http://your_host_ip にアクセスし、ユーザー名 admin と取得したパスワードでログインします。
+
+### macOS & Windows
+
+macOS および Windows 向けにデスクトップインストーラーが用意されています。インストールの詳細は [ドキュメント](https://docs.gpustack.ai/latest/installation/desktop-installer/) をご覧ください。
+
+## モデルのデプロイ
+
+1. GPUStack UI の Catalog ページに移動します。
+
+2. モデルリストから Qwen3 モデルを選択します。
+
+3. デプロイ互換性チェックが完了したら、Save ボタンをクリックしてデプロイします。
+
+![deploy qwen3 from catalog](docs/assets/quick-start/quick-start-qwen3.png)
+
+4. モデルのダウンロードとデプロイが開始されます。ステータスが Running になると、デプロイ成功です。
+
+![model is running](docs/assets/quick-start/model-running.png)
+
+5. ナビゲーションメニューから Playground - Chat を選択し、右上の Model ドロップダウンで qwen3 が選択されていることを確認してチャットを開始します。
+
+![quick chat](docs/assets/quick-start/quick-chat.png)
+
+## API でモデルを使用する
+
+1. ユーザーアバターをホバーし、API Keys ページに移動後、New API Key をクリックします。
+
+2. Name を入力し、Save をクリックします。
+
+3. 生成された API キーをコピーして安全な場所に保管してください（一度しか表示されません）。
+
+4. OpenAI 互換エンドポイントにアクセスできます。例：
+
+```bash
+# Replace `your_api_key` and `your_gpustack_server_url`
+# with your actual API key and GPUStack server URL.
+export GPUSTACK_API_KEY=your_api_key
+curl http://your_gpustack_server_url/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $GPUSTACK_API_KEY" \
+  -d '{
+    "model": "qwen3",
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
     "messages": [
       {
         "role": "system",
@@ -134,7 +204,11 @@ curl http://your_gpustack_server_url/v1-openai/chat/completions \
       },
       {
         "role": "user",
+<<<<<<< HEAD
         "content": "Hello!"
+=======
+        "content": "Tell me a joke."
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
       }
     ],
     "stream": true
@@ -143,8 +217,13 @@ curl http://your_gpustack_server_url/v1-openai/chat/completions \
 
 ## サポートされているプラットフォーム
 
+<<<<<<< HEAD
 - [x] macOS
 - [x] Linux
+=======
+- [x] Linux
+- [x] macOS
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 - [x] Windows
 
 ## サポートされているアクセラレータ
@@ -160,7 +239,11 @@ curl http://your_gpustack_server_url/v1-openai/chat/completions \
 
 ## サポートされているモデル
 
+<<<<<<< HEAD
 GPUStack は[llama-box](https://github.com/gpustack/llama-box)（バンドルされた[llama.cpp](https://github.com/ggml-org/llama.cpp)と[stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp)サーバー）、[vLLM](https://github.com/vllm-project/vllm)、[Ascend MindIE](https://www.hiascend.com/en/software/mindie)、[vox-box](https://github.com/gpustack/vox-box)をバックエンドとして使用し、幅広いモデルをサポートしています。以下のソースからのモデルがサポートされています：
+=======
+GPUStack は[vLLM](https://github.com/vllm-project/vllm)、[Ascend MindIE](https://www.hiascend.com/en/software/mindie)、[llama-box](https://github.com/gpustack/llama-box)（バンドルされた[llama.cpp](https://github.com/ggml-org/llama.cpp)と[stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp)サーバー）、[vox-box](https://github.com/gpustack/vox-box)をバックエンドとして使用し、幅広いモデルをサポートしています。以下のソースからのモデルがサポートされています：
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 
 1. [Hugging Face](https://huggingface.co/)
 
@@ -168,6 +251,7 @@ GPUStack は[llama-box](https://github.com/gpustack/llama-box)（バンドルさ
 
 3. ローカルファイルパス
 
+<<<<<<< HEAD
 ### モデル例：
 
 | **カテゴリ**                  | **モデル**                                                                                                                                                                                                                                                                                                                                           |
@@ -178,6 +262,18 @@ GPUStack は[llama-box](https://github.com/gpustack/llama-box)（バンドルさ
 | **埋め込みモデル**            | [BGE](https://huggingface.co/gpustack/bge-m3-GGUF), [BCE](https://huggingface.co/gpustack/bce-embedding-base_v1-GGUF), [Jina](https://huggingface.co/models?search=gpustack/jina-embeddings)                                                                                                                                                         |
 | **リランカーモデル**          | [BGE](https://huggingface.co/gpustack/bge-reranker-v2-m3-GGUF), [BCE](https://huggingface.co/gpustack/bce-reranker-base_v1-GGUF), [Jina](https://huggingface.co/models?search=gpustack/jina-reranker)                                                                                                                                                |
 | **音声モデル**                | [Whisper](https://huggingface.co/models?search=Systran/faster)（音声認識）、[CosyVoice](https://huggingface.co/models?search=FunAudioLLM/CosyVoice)（音声合成）                                                                                                                                                                                      |
+=======
+### モデル例
+
+| **カテゴリ**                  | **モデル**                                                                                                                                                                                                                                                                                                                                       |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **大規模言語モデル（LLM）**   | [Qwen](https://huggingface.co/models?search=Qwen/Qwen), [LLaMA](https://huggingface.co/meta-llama), [Mistral](https://huggingface.co/mistralai), [DeepSeek](https://huggingface.co/models?search=deepseek-ai/deepseek), [Phi](https://huggingface.co/models?search=microsoft/phi), [Gemma](https://huggingface.co/models?search=Google/gemma)    |
+| **ビジョン言語モデル（VLM）** | [Llama3.2-Vision](https://huggingface.co/models?pipeline_tag=image-text-to-text&search=llama3.2), [Pixtral](https://huggingface.co/models?search=pixtral) , [Qwen2.5-VL](https://huggingface.co/models?search=Qwen/Qwen2.5-VL), [LLaVA](https://huggingface.co/models?search=llava), [InternVL3](https://huggingface.co/models?search=internvl3) |
+| **拡散モデル**                | [Stable Diffusion](https://huggingface.co/models?search=gpustack/stable-diffusion), [FLUX](https://huggingface.co/models?search=gpustack/flux)                                                                                                                                                                                                   |
+| **埋め込みモデル**            | [BGE](https://huggingface.co/gpustack/bge-m3-GGUF), [BCE](https://huggingface.co/gpustack/bce-embedding-base_v1-GGUF), [Jina](https://huggingface.co/models?search=gpustack/jina-embeddings), [Qwen3-Embedding](https://huggingface.co/models?search=qwen/qwen3-embedding)                                                                       |
+| **リランカーモデル**          | [BGE](https://huggingface.co/gpustack/bge-reranker-v2-m3-GGUF), [BCE](https://huggingface.co/gpustack/bce-reranker-base_v1-GGUF), [Jina](https://huggingface.co/models?search=gpustack/jina-reranker), [Qwen3-Reranker](https://huggingface.co/models?search=qwen/qwen3-reranker)                                                                |
+| **音声モデル**                | [Whisper](https://huggingface.co/models?search=Systran/faster)（音声認識）、[CosyVoice](https://huggingface.co/models?search=FunAudioLLM/CosyVoice)（音声合成）                                                                                                                                                                                  |
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 
 サポートされているモデルの完全なリストについては、[推論バックエンド](https://docs.gpustack.ai/latest/user-guide/inference-backends/)ドキュメントのサポートされているモデルセクションを参照してください。
 

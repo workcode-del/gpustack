@@ -493,12 +493,24 @@ RUN <<EOF
     # We also lock the transformers version here to fix https://github.com/gpustack/gpustack/pull/2473.
     cat <<EOT >/tmp/requirements.txt
 transformers==4.51.3
+<<<<<<< HEAD
 triton==3.3.1
+=======
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 vox-box==${VERSION}
 EOT
     pip install --disable-pip-version-check --no-cache-dir --root-user-action ignore --force-reinstall --no-dependencies -r /tmp/requirements.txt \
         && ln -vsf ${PIPX_LOCAL_VENVS}/vox-box/bin/vox-box /usr/local/bin/vox-box
 
+<<<<<<< HEAD
+=======
+    if [[ "${TARGETARCH}" == "amd64" ]]; then
+        # Since no compatible version exists for arm64, triton installation is restricted to amd64 architectures,
+        # aligning with pyproject.toml constraints.
+        pip install --disable-pip-version-check --no-cache-dir --root-user-action ignore --force-reinstall --no-dependencies triton==3.3.1
+    fi
+
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
     # Download tools
     # - Download dac weights used by audio models like Dia.
     python -m dac download

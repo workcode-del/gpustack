@@ -35,7 +35,11 @@ GPUStack is an open-source GPU cluster manager for running AI models.
 
 - **Broad GPU Compatibility:** Seamlessly supports GPUs from various vendors across Apple Macs, Windows PCs, and Linux servers.
 - **Extensive Model Support:** Supports a wide range of models including LLMs, VLMs, image models, audio models, embedding models, and rerank models.
+<<<<<<< HEAD
 - **Flexible Inference Backends:** Flexibly integrates with multiple inference backends including llama-box (llama.cpp & stable-diffusion.cpp), vox-box, vLLM and Ascend MindIE.
+=======
+- **Flexible Inference Backends:** Flexibly integrates with multiple inference backends including vLLM, Ascend MindIE, llama-box (llama.cpp & stable-diffusion.cpp) and vox-box.
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 - **Multi-Version Backend Support:** Run multiple versions of inference backends concurrently to meet the diverse runtime requirements of different models.
 - **Distributed Inference:** Supports single-node and multi-node multi-GPU inference, including heterogeneous GPUs across vendors and runtime environments.
 - **Scalable GPU Architecture:** Easily scale up by adding more GPUs or nodes to your infrastructure.
@@ -50,6 +54,7 @@ GPUStack is an open-source GPU cluster manager for running AI models.
 
 ## Installation
 
+<<<<<<< HEAD
 ### Linux or macOS
 
 GPUStack provides a script to install it as a service on systemd or launchd based systems with default port 80. To install GPUStack using this method, just run:
@@ -127,6 +132,73 @@ curl http://your_gpustack_server_url/v1-openai/chat/completions \
   -H "Authorization: Bearer $GPUSTACK_API_KEY" \
   -d '{
     "model": "llama3.2",
+=======
+### Linux
+
+If you are using NVIDIA GPUs, ensure [Docker](https://docs.docker.com/engine/install/) and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) are installed on your system. Then, run the following command to start the GPUStack server.
+
+```bash
+docker run -d --name gpustack \
+      --restart=unless-stopped \
+      --gpus all \
+      --network=host \
+      --ipc=host \
+      -v gpustack-data:/var/lib/gpustack \
+      gpustack/gpustack
+```
+
+For more details on the installation or other GPU hardware platforms, please refer to the [Installation Documentation](installation/installation-requirements.md).
+
+After the server starts, run the following command to get the default admin password:
+
+```bash
+docker exec gpustack cat /var/lib/gpustack/initial_admin_password
+```
+
+Open your browser and navigate to `http://your_host_ip` to access the GPUStack UI. Use the default username `admin` and the password you retrieved above to log in.
+
+### macOS & Windows
+
+A desktop installer is available for macOS and Windows — see the [documentation](https://docs.gpustack.ai/latest/installation/desktop-installer/) for installation details.
+
+## Deploy a Model
+
+1. Navigate to the `Catalog` page in the GPUStack UI.
+
+2. Select the `Qwen3` model from the list of available models.
+
+3. After the deployment compatibility checks pass, click the `Save` button to deploy the model.
+
+![deploy qwen3 from catalog](docs/assets/quick-start/quick-start-qwen3.png)
+
+4. GPUStack will start downloading the model files and deploying the model. When the deployment status shows `Running`, the model has been deployed successfully.
+
+![model is running](docs/assets/quick-start/model-running.png)
+
+5. Click `Playground - Chat` in the navigation menu, check that the model `qwen3` is selected from the top-right `Model` dropdown. Now you can chat with the model in the UI playground.
+
+![quick chat](docs/assets/quick-start/quick-chat.png)
+
+## Use the model via API
+
+1. Hover over the user avatar and navigate to the `API Keys` page, then click the `New API Key` button.
+
+2. Fill in the `Name` and click the `Save` button.
+
+3. Copy the generated API key and save it somewhere safe. Please note that you can only see it once on creation.
+
+4. You can now use the API key to access the OpenAI-compatible API endpoints provided by GPUStack. For example, use curl as the following:
+
+```bash
+# Replace `your_api_key` and `your_gpustack_server_url`
+# with your actual API key and GPUStack server URL.
+export GPUSTACK_API_KEY=your_api_key
+curl http://your_gpustack_server_url/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $GPUSTACK_API_KEY" \
+  -d '{
+    "model": "qwen3",
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
     "messages": [
       {
         "role": "system",
@@ -134,7 +206,11 @@ curl http://your_gpustack_server_url/v1-openai/chat/completions \
       },
       {
         "role": "user",
+<<<<<<< HEAD
         "content": "Hello!"
+=======
+        "content": "Tell me a joke."
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
       }
     ],
     "stream": true
@@ -143,8 +219,13 @@ curl http://your_gpustack_server_url/v1-openai/chat/completions \
 
 ## Supported Platforms
 
+<<<<<<< HEAD
 - [x] macOS
 - [x] Linux
+=======
+- [x] Linux
+- [x] macOS
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 - [x] Windows
 
 ## Supported Accelerators
@@ -160,7 +241,11 @@ curl http://your_gpustack_server_url/v1-openai/chat/completions \
 
 ## Supported Models
 
+<<<<<<< HEAD
 GPUStack uses [llama-box](https://github.com/gpustack/llama-box) (bundled [llama.cpp](https://github.com/ggml-org/llama.cpp) and [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) server), [vLLM](https://github.com/vllm-project/vllm), [Ascend MindIE](https://www.hiascend.com/en/software/mindie) and [vox-box](https://github.com/gpustack/vox-box) as the backends and supports a wide range of models. Models from the following sources are supported:
+=======
+GPUStack uses [vLLM](https://github.com/vllm-project/vllm), [Ascend MindIE](https://www.hiascend.com/en/software/mindie), [llama-box](https://github.com/gpustack/llama-box) (bundled [llama.cpp](https://github.com/ggml-org/llama.cpp) and [stable-diffusion.cpp](https://github.com/leejet/stable-diffusion.cpp) server) and [vox-box](https://github.com/gpustack/vox-box) as the backends and supports a wide range of models. Models from the following sources are supported:
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 
 1. [Hugging Face](https://huggingface.co/)
 
@@ -168,6 +253,7 @@ GPUStack uses [llama-box](https://github.com/gpustack/llama-box) (bundled [llama
 
 3. Local File Path
 
+<<<<<<< HEAD
 ### Example Models:
 
 | **Category**                     | **Models**                                                                                                                                                                                                                                                                                                                                           |
@@ -178,6 +264,18 @@ GPUStack uses [llama-box](https://github.com/gpustack/llama-box) (bundled [llama
 | **Embedding Models**             | [BGE](https://huggingface.co/gpustack/bge-m3-GGUF), [BCE](https://huggingface.co/gpustack/bce-embedding-base_v1-GGUF), [Jina](https://huggingface.co/models?search=gpustack/jina-embeddings)                                                                                                                                                         |
 | **Reranker Models**              | [BGE](https://huggingface.co/gpustack/bge-reranker-v2-m3-GGUF), [BCE](https://huggingface.co/gpustack/bce-reranker-base_v1-GGUF), [Jina](https://huggingface.co/models?search=gpustack/jina-reranker)                                                                                                                                                |
 | **Audio Models**                 | [Whisper](https://huggingface.co/models?search=Systran/faster) (Speech-to-Text), [CosyVoice](https://huggingface.co/models?search=FunAudioLLM/CosyVoice) (Text-to-Speech)                                                                                                                                                                            |
+=======
+### Example Models
+
+| **Category**                     | **Models**                                                                                                                                                                                                                                                                                                                                       |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Large Language Models(LLMs)**  | [Qwen](https://huggingface.co/models?search=Qwen/Qwen), [LLaMA](https://huggingface.co/meta-llama), [Mistral](https://huggingface.co/mistralai), [DeepSeek](https://huggingface.co/models?search=deepseek-ai/deepseek), [Phi](https://huggingface.co/models?search=microsoft/phi), [Gemma](https://huggingface.co/models?search=Google/gemma)    |
+| **Vision Language Models(VLMs)** | [Llama3.2-Vision](https://huggingface.co/models?pipeline_tag=image-text-to-text&search=llama3.2), [Pixtral](https://huggingface.co/models?search=pixtral) , [Qwen2.5-VL](https://huggingface.co/models?search=Qwen/Qwen2.5-VL), [LLaVA](https://huggingface.co/models?search=llava), [InternVL3](https://huggingface.co/models?search=internvl3) |
+| **Diffusion Models**             | [Stable Diffusion](https://huggingface.co/models?search=gpustack/stable-diffusion), [FLUX](https://huggingface.co/models?search=gpustack/flux)                                                                                                                                                                                                   |
+| **Embedding Models**             | [BGE](https://huggingface.co/gpustack/bge-m3-GGUF), [BCE](https://huggingface.co/gpustack/bce-embedding-base_v1-GGUF), [Jina](https://huggingface.co/models?search=gpustack/jina-embeddings), [Qwen3-Embedding](https://huggingface.co/models?search=qwen/qwen3-embedding)                                                                       |
+| **Reranker Models**              | [BGE](https://huggingface.co/gpustack/bge-reranker-v2-m3-GGUF), [BCE](https://huggingface.co/gpustack/bce-reranker-base_v1-GGUF), [Jina](https://huggingface.co/models?search=gpustack/jina-reranker), [Qwen3-Reranker](https://huggingface.co/models?search=qwen/qwen3-reranker)                                                                |
+| **Audio Models**                 | [Whisper](https://huggingface.co/models?search=Systran/faster) (Speech-to-Text), [CosyVoice](https://huggingface.co/models?search=FunAudioLLM/CosyVoice) (Text-to-Speech)                                                                                                                                                                        |
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
 
 For full list of supported models, please refer to the supported models section in the [inference backends](https://docs.gpustack.ai/latest/user-guide/inference-backends/) documentation.
 

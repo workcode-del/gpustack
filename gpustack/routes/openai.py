@@ -144,7 +144,7 @@ async def list_models(
                 id=model.name,
                 object="model",
                 created=int(model.created_at.timestamp()),
-                owned_by="model_manager",
+                owned_by="gpustack",
                 meta=model.meta if with_meta else None,
             )
         )

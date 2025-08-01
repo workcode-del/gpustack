@@ -191,7 +191,7 @@ class Worker:
         Start the worker.
         """
 
-        logger.info("Starting model-manager worker.")
+        logger.info("Starting GPUStack worker.")
 
         add_signal_handlers_in_loop()
 

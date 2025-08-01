@@ -681,6 +681,14 @@ EOF
 ## Setup environment
 
 RUN <<EOF
+<<<<<<< HEAD
+=======
+    # Export CANN HCCL lib
+    EXPORT_HCCL_LIB="export LD_LIBRARY_PATH=${CANN_HOME}/ascend-toolkit/latest/hccl/lib64:\${LD_LIBRARY_PATH}"
+    echo "${SOURCE_HCCL_ENV}" >> /etc/profile
+    echo "${SOURCE_HCCL_ENV}" >> ~/.bashrc
+
+>>>>>>> 775fc18d5dacc7e56c2f41c17acb699a0d976b3d
     # Export CANN driver lib
     EXPORT_DRIVER_LIB="export LD_LIBRARY_PATH=${CANN_HOME}/driver/lib64/common:${CANN_HOME}/driver/lib64/driver:\${LD_LIBRARY_PATH}"
     echo "${EXPORT_DRIVER_LIB}" >> /etc/profile
